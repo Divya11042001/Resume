@@ -6,8 +6,9 @@ import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.multiclass import OneVsRestClassifier
-from sklearn.pipeline import make_pipeline
 from scipy.sparse import csr_matrix
+from streamlit_option_menu import option_menu
+from PIL import Image
 
 
 nltk.download('punkt')
@@ -27,6 +28,28 @@ def clean_resume(resume_text):
 
 
 #web app
+
+#set page icon
+img=Image.open("images.png")
+st.set_page_config(page_title="Resume_Screening_app",page_icon="img")
+def about():
+    st.title("Resume-Screening-App")
+    st.subheader("1. Efficiency and Time-Saving:")
+    st.write("Automating the initial review process significantly reduces the time spent on manual resume reviews, allowing hiring managers and recruiters to focus on interviewing and selecting the best candidates.")
+
+    st.subheader("2. Enhanced Accuracy and Consistency:")
+    st.write("Utilizing advanced algorithms and machine learning, the app ensures a consistent and unbiased evaluation of resumes, minimizing human errors and subjectivity.")
+
+    st.subheader("3. Cost-Effectiveness:")
+    st.write("By streamlining the resume screening process, companies can lower their overall hiring costs, including administrative expenses and the time spent by HR personnel.")
+
+    st.subheader("4. Improved Candidate Experience:")
+    st.write("Candidates receive quicker feedback on their applications, leading to a better overall experience and a positive perception of the company.")
+    
+    
+    st.image("images.png",width=300)   
+
+
 def main():
     st.title("Resume Screening App")
     uploaded_file=st.file_uploader("Upload_Resume",type=['txt','pdf'])
@@ -76,5 +99,19 @@ def main():
         category_name=category_mapping.get(prediction_id,"Unknown")
 
         st.write("Prediction category",category_name)
+
+    
+
+with st.sidebar:
+    selected=option_menu(menu_title="Navigation",
+                         options=["About","App Deployment"],
+                         icons=["house","book"],
+                         menu_icon="cast",
+                         default_index=0)
+
+if selected == 'About':
+    about()
+elif selected == 'App Deployment':
+    main()
 
 
